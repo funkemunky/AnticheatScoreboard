@@ -5,12 +5,17 @@ import cc.funkemunky.scoreboard.anticheat.AnticheatManager;
 import cc.funkemunky.scoreboard.scoreboard.ScoreboardManager;
 import me.tigerhix.lib.scoreboard.ScoreboardLib;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AnticheatScoreboard extends JavaPlugin {
     public static AnticheatScoreboard INSTANCE;
     public AnticheatManager anticheatManager;
     public ScoreboardManager scoreboardManager;
+    public List<Player> alerts = new ArrayList<>();
 
     public void onEnable() {
         INSTANCE = this;
