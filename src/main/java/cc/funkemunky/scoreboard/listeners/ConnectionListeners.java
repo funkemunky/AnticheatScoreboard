@@ -18,7 +18,7 @@ public class ConnectionListeners implements Listener {
             scoreboard.activate();
 
             if(GeneralConfig.testMode) {
-                AnticheatScoreboard.INSTANCE.anticheatManager.anticheatMap.put(event.getPlayer().getUniqueId(), AnticheatScoreboard.INSTANCE.anticheatManager.anticheats.get(0));
+                AnticheatScoreboard.INSTANCE.anticheatManager.anticheatMap.put(event.getPlayer().getUniqueId(), AnticheatScoreboard.INSTANCE.anticheatManager.anticheats.get(0).getAnticheatName());
                 AnticheatScoreboard.INSTANCE.alerts.add(event.getPlayer());
             }
         }

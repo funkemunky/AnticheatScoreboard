@@ -34,6 +34,6 @@ public class NoCheatPlus extends Anticheat implements NCPHook {
     public boolean onCheckFailure(CheckType checkType, Player player, IViolationInfo iViolationInfo) {
         addViolation(player.getUniqueId(), checkType.getName(), iViolationInfo.willCancel(), vl -> vl.checkName.equals(checkType.getName()), vl -> vl.vlCount = iViolationInfo.getTotalVl(), "none");
 
-        return GeneralConfig.testMode && !AnticheatScoreboard.INSTANCE.anticheatManager.anticheatMap.get(player.getUniqueId()).getAnticheatName().equals(getAnticheatName());
+        return GeneralConfig.testMode && !AnticheatScoreboard.INSTANCE.anticheatManager.anticheatMap.get(player.getUniqueId()).equals(getAnticheatName());
     }
 }

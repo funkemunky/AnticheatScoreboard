@@ -6,7 +6,7 @@ import cc.funkemunky.api.utils.Init;
 @Init
 public class GeneralConfig {
 
-    @ConfigSetting(name = "testmode")
+    @ConfigSetting(path = "testmode", name = "enabled")
     public static boolean testMode = false;
 
     @ConfigSetting(path = "testmode", name = "alerts")

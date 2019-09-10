@@ -13,7 +13,7 @@ public class Iris extends Anticheat implements Listener {
     public void onEvent(IrisCheatEvent event) {
         addViolation(event.getPlayer().getUniqueId(), event.getCheck().getName(), event.getCheck().isCancellable(), vl -> vl.checkName.equals(event.getCheck().getName()), vl -> vl.vlCount = event.getCheck().getVl(), event.getInformation());
 
-        event.setCancelled(GeneralConfig.testMode && !AnticheatScoreboard.INSTANCE.anticheatManager.anticheatMap.get(event.getPlayer().getUniqueId()).getAnticheatName().equals(getAnticheatName()));
+        event.setCancelled(GeneralConfig.testMode && !AnticheatScoreboard.INSTANCE.anticheatManager.anticheatMap.get(event.getPlayer().getUniqueId()).equals(getAnticheatName()));
     }
 
     @Override

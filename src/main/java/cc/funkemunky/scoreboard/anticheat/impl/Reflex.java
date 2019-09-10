@@ -14,7 +14,7 @@ public class Reflex extends Anticheat {
     public void onEvent(ReflexCheckEvent event) {
         addViolation(event.getPlayer().getUniqueId(), event.getCheat().name(), false, vl -> vl.checkName.equals(event.getCheat().name()), vl -> vl.vlCount+= event.getResult().getViolationsMod(), String.join(" ", event.getResult().getTags()));
 
-        event.setCancelled(GeneralConfig.testMode && !AnticheatScoreboard.INSTANCE.anticheatManager.anticheatMap.get(event.getPlayer().getUniqueId()).getAnticheatName().equals(getAnticheatName()));
+        event.setCancelled(GeneralConfig.testMode && !AnticheatScoreboard.INSTANCE.anticheatManager.anticheatMap.get(event.getPlayer().getUniqueId()).equals(getAnticheatName()));
     }
 
     @Override

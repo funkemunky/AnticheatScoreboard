@@ -12,7 +12,9 @@ public class AAC extends Anticheat {
     public void onEvent(PlayerViolationEvent event) {
         addViolation(event.getPlayer().getUniqueId(), event.getHackType().getName(), event.isCancelled(), vl -> vl.checkName.equals(event.getHackType().getName()), vl -> vl.vlCount = event.getViolations(), event.getMessage());
 
-        event.setCancelled(GeneralConfig.testMode && !AnticheatScoreboard.INSTANCE.anticheatManager.anticheatMap.get(event.getPlayer().getUniqueId()).getAnticheatName().equals(getAnticheatName()));
+
+        event.setViolations(GeneralConfig.testMode && !AnticheatScoreboard.INSTANCE.anticheatManager.anticheatMap.get(event.getPlayer().getUniqueId()).equals(getAnticheatName()) ? 0 : event.getViolations());
+        event.setCancelled(GeneralConfig.testMode && !AnticheatScoreboard.INSTANCE.anticheatManager.anticheatMap.get(event.getPlayer().getUniqueId()).equals(getAnticheatName()));
     }
 
     @Override

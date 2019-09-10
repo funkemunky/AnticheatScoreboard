@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AnticheatManager {
     public Anticheat anticheat = null;
     public List<Anticheat> anticheats = new ArrayList<>();
-    public Map<UUID, Anticheat> anticheatMap = new ConcurrentHashMap<>();
+    public Map<UUID, String> anticheatMap = new ConcurrentHashMap<>();
 
     public void registerAnticheat() {
         if(Bukkit.getPluginManager().getPlugin("AAC") != null) {

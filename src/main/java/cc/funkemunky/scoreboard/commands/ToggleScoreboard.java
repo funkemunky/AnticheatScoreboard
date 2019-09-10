@@ -101,7 +101,7 @@ public class ToggleScoreboard {
             val optional = AnticheatScoreboard.INSTANCE.anticheatManager.anticheats.stream().filter(ac -> ac.getAnticheatName().equalsIgnoreCase(cmd.getArgs()[0])).findFirst();
             if(optional.isPresent()) {
                 Anticheat anticheat = optional.get();
-                AnticheatScoreboard.INSTANCE.anticheatManager.anticheatMap.put(cmd.getPlayer().getUniqueId(), anticheat);
+                AnticheatScoreboard.INSTANCE.anticheatManager.anticheatMap.put(cmd.getPlayer().getUniqueId(), anticheat.getAnticheatName());
                 cmd.getSender().sendMessage(Color.Green + "Using anticheat " + anticheat.getAnticheatName() + ".");
             } else cmd.getPlayer().sendMessage(Color.Red + "Not an anticheat.");
         } else cmd.getPlayer().sendMessage(Color.Red + "Invalid arguments you dipcrap wiener.");

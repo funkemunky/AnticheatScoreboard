@@ -20,6 +20,8 @@ public class AnticheatScoreboard extends JavaPlugin {
     public void onEnable() {
         INSTANCE = this;
 
+        Atlas.getInstance().initializeScanner(getClass(), this, true, true);
+
         anticheatManager = new AnticheatManager();
         anticheatManager.registerAnticheat();
 
@@ -39,7 +41,6 @@ public class AnticheatScoreboard extends JavaPlugin {
     }
 
     public void loadScoreboards() {
-        Atlas.getInstance().initializeScanner(getClass(), this, true, true);
         Bukkit.getOnlinePlayers().stream().filter(player -> player.hasPermission("as.scoreboard")).forEach(player -> scoreboardManager.addScoreboard(player));
     }
 }

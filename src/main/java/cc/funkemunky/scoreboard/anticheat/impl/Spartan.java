@@ -12,7 +12,7 @@ public class Spartan extends Anticheat {
     public void onEvent(PlayerViolationEvent event) {
         addViolation(event.getPlayer().getUniqueId(), event.getHackType().name(), event.isCancelled(), vl -> vl.checkName.equals(event.getHackType().name()), vl -> vl.vlCount = event.getViolation(), event.getMessage());
 
-        event.setCancelled(GeneralConfig.testMode && !AnticheatScoreboard.INSTANCE.anticheatManager.anticheatMap.get(event.getPlayer().getUniqueId()).getAnticheatName().equals(getAnticheatName()));
+        event.setCancelled(GeneralConfig.testMode && !AnticheatScoreboard.INSTANCE.anticheatManager.anticheatMap.get(event.getPlayer().getUniqueId()).equals(getAnticheatName()));
     }
 
     @Override
