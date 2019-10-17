@@ -3,4 +3,4 @@ main: cc.funkemunky.scoreboard.AnticheatScoreboard
 author: funkemunky
 version: ${project.version}
 depend: [Atlas]
-softdepend: [KauriLoader, AAC, Spartan, Reflex, NoCheatPlus, Iris, FeatherBoard]
+softdepend: [KauriLoader, AAC, Spartan, Reflex, NoCheatPlus, FeatherBoard]

@@ -20,15 +20,7 @@ public class AnticheatManager {
         if(Bukkit.getPluginManager().getPlugin("AAC") != null) {
             Anticheat anticheat = new AAC();
 
-            if(!GeneralConfig.testMode) {
-                this.anticheat = anticheat;
-                return;
-            } else {
-                anticheats.add(anticheat);
-            }
-        }
-        if(Bukkit.getPluginManager().getPlugin("Iris") != null) {
-            Anticheat anticheat = new Iris();
+            Bukkit.getPluginManager().registerEvents(anticheat, AnticheatScoreboard.INSTANCE);
 
             if(!GeneralConfig.testMode) {
                 this.anticheat = anticheat;
@@ -40,6 +32,8 @@ public class AnticheatManager {
         if(Bukkit.getPluginManager().getPlugin("KauriLoader") != null) {
             Anticheat anticheat = new Kauri();
 
+            Bukkit.getPluginManager().registerEvents(anticheat, AnticheatScoreboard.INSTANCE);
+
             if(!GeneralConfig.testMode) {
                 this.anticheat = anticheat;
                 return;
@@ -50,6 +44,8 @@ public class AnticheatManager {
         if(Bukkit.getPluginManager().getPlugin("Reflex") != null) {
             Anticheat anticheat = new Reflex();
 
+            Bukkit.getPluginManager().registerEvents(anticheat, AnticheatScoreboard.INSTANCE);
+
             if(!GeneralConfig.testMode) {
                 this.anticheat = anticheat;
                 return;
@@ -59,6 +55,8 @@ public class AnticheatManager {
         }
         if(Bukkit.getPluginManager().getPlugin("Spartan") != null) {
             Anticheat anticheat = new Spartan();
+
+            Bukkit.getPluginManager().registerEvents(anticheat, AnticheatScoreboard.INSTANCE);
 
             if(!GeneralConfig.testMode) {
                 this.anticheat = anticheat;
@@ -78,7 +76,7 @@ public class AnticheatManager {
             }
         }
 
-        if(anticheat == null) {
+        if(!GeneralConfig.testMode && anticheat == null) {
             MiscUtils.printToConsole(Color.Red + "No supported anticheat installed. Disabling plugin...");
             Bukkit.getPluginManager().disablePlugin(AnticheatScoreboard.INSTANCE);
         }

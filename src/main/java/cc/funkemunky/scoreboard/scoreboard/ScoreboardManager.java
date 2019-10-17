@@ -4,6 +4,8 @@ import cc.funkemunky.api.utils.Color;
 import cc.funkemunky.api.utils.ConfigSetting;
 import cc.funkemunky.api.utils.Init;
 import cc.funkemunky.scoreboard.AnticheatScoreboard;
+import cc.funkemunky.scoreboard.anticheat.Anticheat;
+import cc.funkemunky.scoreboard.config.GeneralConfig;
 import lombok.val;
 import me.tigerhix.lib.scoreboard.ScoreboardLib;
 import me.tigerhix.lib.scoreboard.common.EntryBuilder;
@@ -23,7 +25,15 @@ public class ScoreboardManager {
     private static String scoreboardtitle = "&6&lAnticheatScoreboard";
 
     @ConfigSetting(path = "scoreboard", name = "entries")
-    private static List<String> scoreboardEntries = Arrays.asList("%blank%", "&e&lAnticheat", "&f%anticheat%", "%blank%", "&e&lLast Violator", "%lastViolator%", "%blank%", "&e&lTop Violators", "%topViolators%");
+    private static List<String> scoreboardEntries = Arrays.asList("%blank%",
+            "&e&lAnticheat",
+            "&f%anticheat%",
+            "%blank%",
+            "&e&lLast Violator",
+            "%lastViolator%",
+            "%blank%",
+            "&e&lTop Violators",
+            "%topViolators%");
 
     @ConfigSetting(path = "scoreboard.topViolators", name = "field")
     private static String violatorField = "&8- &f%player% (&c%checks%&7)";
@@ -41,7 +51,7 @@ public class ScoreboardManager {
             public List<Entry> getEntries(Player player) {
                 EntryBuilder builder = new EntryBuilder();
                 for (String scoreboardEntry : scoreboardEntries) {
-                    builder = formatString(builder, scoreboardEntry);
+                    builder = formatString(player, builder, scoreboardEntry);
                 }
                 return builder.build();
             }
@@ -51,33 +61,56 @@ public class ScoreboardManager {
         return scoreboard;
     }
 
-    private EntryBuilder formatString(EntryBuilder builder, String string) {
+    private EntryBuilder formatString(Player player, EntryBuilder builder, String string) {
         String formatted = Color.translate(string);
 
         if(formatted.equals("%blank%")) {
             return builder.blank();
         } else if(formatted.equals("%topViolators%")) {
-            val instance = new LinkedHashMap<>(AnticheatScoreboard.INSTANCE.anticheatManager.anticheat.violations);
-            List<UUID> violators = instance.keySet().stream().sorted(Comparator.comparing(key -> instance.get(key).size(), Comparator.reverseOrder())).limit(5).collect(Collectors.toList());
+            if(!GeneralConfig.testMode) {
+                val instance = new LinkedHashMap<>(AnticheatScoreboard.INSTANCE.anticheatManager.anticheat.violations);
+                List<UUID> violators = instance.keySet()
+                        .stream()
+                        .sorted(Comparator.comparing(key -> instance.get(key).size(), Comparator.reverseOrder()))
+                        .limit(5)
+                        .collect(Collectors.toList());
 
-            if(violators.size() > 0) {
-                EntryBuilder newBuilder = builder;
-                for (UUID violator : violators) {
-                    newBuilder = newBuilder.next(violatorField.replace("%player%", Bukkit.getOfflinePlayer(violator).getName()).replace("%checks%", instance.get(violator).size() + ""));
+                if(violators.size() > 0) {
+                    EntryBuilder newBuilder = builder;
+                    for (UUID violator : violators) {
+                        newBuilder = newBuilder.next(violatorField
+                                .replace("%player%",
+                                        Bukkit.getOfflinePlayer(violator).getName())
+                                .replace("%checks%", instance.get(violator).size() + ""));
+                    }
+                    instance.clear();
+                    return newBuilder;
+                } else {
+                    instance.clear();
+                    return builder.next(Color.Red + "No violators.");
                 }
-                instance.clear();
-                return newBuilder;
-            } else {
-                instance.clear();
-                return builder.next(Color.Red + "No violators.");
-            }
+            } else return builder.next(Color.Red + "N/A");
         }
 
         if(formatted.contains("%anticheat%")) {
-            formatted = formatted.replace("%anticheat%", AnticheatScoreboard.INSTANCE.anticheatManager.anticheat.getAnticheatName());
+            if(!GeneralConfig.testMode) {
+                formatted = formatted.replace("%anticheat%",
+                        AnticheatScoreboard.INSTANCE.anticheatManager.anticheat.getAnticheatName());
+            } else {
+                formatted = formatted.replace("%anticheat%",
+                        AnticheatScoreboard.INSTANCE.anticheatManager.anticheatMap
+                                .getOrDefault(player.getUniqueId(), "None"));
+            }
         }
         if(formatted.contains("%lastViolator%")) {
-            return builder.next(formatted.replace("%lastViolator%", AnticheatScoreboard.INSTANCE.anticheatManager.anticheat.lastViolator != null ? Bukkit.getOfflinePlayer(AnticheatScoreboard.INSTANCE.anticheatManager.anticheat.lastViolator).getName() : "None"));
+            if(!GeneralConfig.testMode) {
+                return builder.next(formatted
+                        .replace("%lastViolator%",
+                                AnticheatScoreboard.INSTANCE.anticheatManager.anticheat.lastViolator != null
+                                        ? Bukkit.getOfflinePlayer(AnticheatScoreboard.INSTANCE.anticheatManager
+                                        .anticheat.lastViolator).getName()
+                                        : "None"));
+            } else return builder.next(formatted.replace("%lastViolator%", "N/A"));
         }
 
         return builder.next(formatted);
