@@ -83,9 +83,9 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>cc.funkemunky.anticheat</groupId>
+            <groupId>dev.brighten.anticheat</groupId>
             <artifactId>API</artifactId>
-            <version>b11</version>
+            <version>2.2</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -103,7 +103,7 @@
         <dependency>
             <groupId>cc.funkemunky.plugins</groupId>
             <artifactId>Atlas</artifactId>
-            <version>1.5.4</version>
+            <version>1.7</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -115,7 +115,7 @@
         <dependency>
             <groupId>me.vagdedes.spartan</groupId>
             <artifactId>SpartanAPI</artifactId>
-            <version>262</version>
+            <version>307</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

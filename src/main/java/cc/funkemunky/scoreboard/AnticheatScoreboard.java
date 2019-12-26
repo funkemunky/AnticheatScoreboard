@@ -1,46 +1,24 @@
 package cc.funkemunky.scoreboard;
 
 import cc.funkemunky.api.Atlas;
-import cc.funkemunky.scoreboard.anticheat.AnticheatManager;
-import cc.funkemunky.scoreboard.scoreboard.ScoreboardManager;
 import me.tigerhix.lib.scoreboard.ScoreboardLib;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class AnticheatScoreboard extends JavaPlugin {
     public static AnticheatScoreboard INSTANCE;
-    public AnticheatManager anticheatManager;
-    public ScoreboardManager scoreboardManager;
-    public List<Player> alerts = new ArrayList<>();
+    public Map<UUID, String> alerts = new HashMap<>();
 
     public void onEnable() {
         INSTANCE = this;
 
-        Atlas.getInstance().initializeScanner(getClass(), this, true, true);
-
-        anticheatManager = new AnticheatManager();
-        anticheatManager.registerAnticheat();
+        Atlas.getInstance().initializeScanner(this, true, true);
 
         ScoreboardLib.setPluginInstance(this);
-
-        if(anticheatManager.anticheat != null) {
-            Bukkit.getPluginManager().registerEvents(anticheatManager.anticheat, this);
-        }
-
-        scoreboardManager = new ScoreboardManager();
-
-        loadScoreboards();
     }
 
     public void onDisable() {
 
-    }
-
-    public void loadScoreboards() {
-        Bukkit.getOnlinePlayers().stream().filter(player -> player.hasPermission("as.scoreboard")).forEach(player -> scoreboardManager.addScoreboard(player));
     }
 }
