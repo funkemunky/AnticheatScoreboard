@@ -4,11 +4,13 @@ import cc.funkemunky.api.Atlas;
 import cc.funkemunky.api.utils.Init;
 import cc.funkemunky.scoreboard.listeners.custom.AnticheatFlagEvent;
 import cc.funkemunky.scoreboard.wrapper.CheckWrapper;
+import me.konsolas.aac.api.PlayerViolationCommandEvent;
 import me.konsolas.aac.api.PlayerViolationEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-@Init
+@Init(requirePlugins = "AAC")
 public class AAC implements Listener {
 
     @EventHandler
@@ -19,7 +21,12 @@ public class AAC implements Listener {
                                 event.getHackType().getName()),
                         event.getViolations(), event.getMessage());
 
-        Atlas.getInstance().getEventManager().callEvent(afe);
+        Bukkit.getPluginManager().callEvent(afe);
         event.setCancelled(afe.isCancelled());
+    }
+
+    @EventHandler
+    public void onEvent(PlayerViolationCommandEvent event) {
+        event.setCancelled(true);
     }
 }

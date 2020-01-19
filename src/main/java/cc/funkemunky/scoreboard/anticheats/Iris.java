@@ -4,11 +4,12 @@ import cc.funkemunky.api.Atlas;
 import cc.funkemunky.api.utils.Init;
 import cc.funkemunky.scoreboard.listeners.custom.AnticheatFlagEvent;
 import cc.funkemunky.scoreboard.wrapper.CheckWrapper;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import space.fozzie.iris.api.event.IrisCheatEvent;
 
-@Init
+@Init(requirePlugins = "Iris")
 public class Iris implements Listener {
 
     @EventHandler
@@ -19,7 +20,7 @@ public class Iris implements Listener {
                         event.getCheck().isCancellable(),
                         event.getCheck().getCancelType().name()), event.getCheck().getVl(), event.getInformation());
 
-        Atlas.getInstance().getEventManager().callEvent(afe);
+        Bukkit.getPluginManager().callEvent(afe);
         event.setCancelled(afe.isCancelled());
     }
 }

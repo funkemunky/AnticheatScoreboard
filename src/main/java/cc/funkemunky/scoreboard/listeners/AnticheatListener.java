@@ -1,18 +1,17 @@
 package cc.funkemunky.scoreboard.listeners;
 
-import cc.funkemunky.api.events.AtlasListener;
-import cc.funkemunky.api.events.Listen;
-import cc.funkemunky.api.events.ListenerPriority;
 import cc.funkemunky.api.utils.Color;
 import cc.funkemunky.api.utils.Init;
 import cc.funkemunky.scoreboard.AnticheatScoreboard;
 import cc.funkemunky.scoreboard.config.GeneralConfig;
 import cc.funkemunky.scoreboard.listeners.custom.AnticheatFlagEvent;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 @Init
-public class AnticheatListener implements AtlasListener {
+public class AnticheatListener implements Listener {
 
-    @Listen(priority = ListenerPriority.LOWEST)
+    @EventHandler
     public void onFlag(AnticheatFlagEvent event) {
         if(!event.isCancelled() && GeneralConfig.testMode) {
             if(AnticheatScoreboard.INSTANCE.alerts.containsKey(event.player.getUniqueId())) {
@@ -26,6 +25,8 @@ public class AnticheatListener implements AtlasListener {
                             .replace("%vl%", event.vl + ""));
 
                     event.player.sendMessage(message);
+                    event.setCancelled(false);
+                    return;
                 }
             }
             event.setCancelled(true);

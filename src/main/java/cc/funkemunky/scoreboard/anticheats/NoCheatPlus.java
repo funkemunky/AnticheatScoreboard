@@ -8,6 +8,7 @@ import fr.neatmonster.nocheatplus.checks.CheckType;
 import fr.neatmonster.nocheatplus.checks.access.IViolationInfo;
 import fr.neatmonster.nocheatplus.hooks.NCPHook;
 import fr.neatmonster.nocheatplus.hooks.NCPHookManager;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class NoCheatPlus implements NCPHook {
@@ -33,7 +34,7 @@ public class NoCheatPlus implements NCPHook {
                         checkType.getType().name()),
                 (float)iViolationInfo.getTotalVl(), iViolationInfo.getParameter(ParameterName.TAGS));
 
-        Atlas.getInstance().getEventManager().callEvent(afe);
+        Bukkit.getPluginManager().callEvent(afe);
         return !afe.isCancelled();
     }
 }

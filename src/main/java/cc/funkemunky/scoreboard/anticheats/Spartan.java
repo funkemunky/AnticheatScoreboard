@@ -6,21 +6,23 @@ import cc.funkemunky.scoreboard.listeners.custom.AnticheatFlagEvent;
 import cc.funkemunky.scoreboard.wrapper.CheckWrapper;
 import me.vagdedes.spartan.api.API;
 import me.vagdedes.spartan.api.CheckCancelEvent;
+import me.vagdedes.spartan.api.PlayerViolationCommandEvent;
 import me.vagdedes.spartan.api.PlayerViolationEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 
-@Init
+@Init(requirePlugins = "Spartan")
 public class Spartan {
 
     @EventHandler
     public void onEvent(PlayerViolationEvent event) {
-        AnticheatFlagEvent afe = new AnticheatFlagEvent("Spartan-Flag", event.getPlayer(),
+        AnticheatFlagEvent afe = new AnticheatFlagEvent("Spartan", event.getPlayer(),
                 new CheckWrapper(event.getHackType().name(),
                         true,
                         !API.isSilent(event.getHackType()),
                         event.getHackType().name()), event.getViolation(), event.getMessage());
 
-        Atlas.getInstance().getEventManager().callEvent(afe);
+        Bukkit.getPluginManager().callEvent(afe);
 
         event.setCancelled(afe.isCancelled());
     }
@@ -33,8 +35,13 @@ public class Spartan {
                         true,
                         event.getHackType().name()), -1, "");
 
-        Atlas.getInstance().getEventManager().callEvent(afe);
+        Bukkit.getPluginManager().callEvent(afe);
 
         event.setCancelled(afe.isCancelled());
+    }
+
+    @EventHandler
+    public void onEvent(PlayerViolationCommandEvent event) {
+        event.setCancelled(true);
     }
 }
