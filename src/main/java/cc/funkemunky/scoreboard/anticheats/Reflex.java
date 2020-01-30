@@ -15,6 +15,7 @@ public class Reflex implements Listener {
 
     @EventHandler
     public void onEvent(ReflexCheckEvent event) {
+        if(!event.getResult().isCheckFailed()) return;
         AnticheatFlagEvent afe = new AnticheatFlagEvent("Reflex", event.getPlayer(),
                 new CheckWrapper(event.getCheat().name(),
                         event.getResult().isCheckFailed(),
