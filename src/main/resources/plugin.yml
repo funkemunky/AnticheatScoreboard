@@ -4,4 +4,4 @@ author: funkemunky
 version: ${project.version}
 depend: [Atlas]
 softdepend: [KauriLoader, Kauri, AAC, Spartan, Reflex, NoCheatPlus,
-             Iris, FeatherBoard, TakaAC, Hawk, fireflyx, nLoader, AutoEye]
+             Iris, FeatherBoard, TakaAntiCheat, Hawk, fireflyx, nLoader, AutoEye]

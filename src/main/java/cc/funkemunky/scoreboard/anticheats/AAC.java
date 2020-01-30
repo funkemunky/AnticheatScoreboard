@@ -6,7 +6,6 @@ import cc.funkemunky.scoreboard.listeners.custom.AnticheatFlagEvent;
 import cc.funkemunky.scoreboard.wrapper.CheckWrapper;
 import me.konsolas.aac.api.PlayerViolationCommandEvent;
 import me.konsolas.aac.api.PlayerViolationEvent;
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -21,7 +20,7 @@ public class AAC implements Listener {
                                 event.getHackType().getName()),
                         event.getViolations(), event.getMessage());
 
-        Bukkit.getPluginManager().callEvent(afe);
+        Atlas.getInstance().getEventManager().callEvent(afe);
         event.setCancelled(afe.isCancelled());
     }
 

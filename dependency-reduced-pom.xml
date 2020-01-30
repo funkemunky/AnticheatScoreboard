@@ -18,6 +18,7 @@
         <configuration>
           <source>8</source>
           <target>8</target>
+          <compilerArgument>-XDignore.symbol.file</compilerArgument>
         </configuration>
       </plugin>
       <plugin>
@@ -30,7 +31,7 @@
               <goal>shade</goal>
             </goals>
             <configuration>
-              <minimizeJar>true</minimizeJar>
+              <minimizeJar>false</minimizeJar>
             </configuration>
           </execution>
         </executions>
@@ -45,14 +46,6 @@
     <repository>
       <id>janmm14-public</id>
       <url>https://repo.janmm14.de/repository/public/</url>
-    </repository>
-    <repository>
-      <id>md_5-snapshots</id>
-      <url>https://repo.md-5.net/content/repositories/snapshots/</url>
-    </repository>
-    <repository>
-      <id>md_5-releases</id>
-      <url>https://repo.md-5.net/content/repositories/releases/</url>
     </repository>
   </repositories>
   <dependencies>
@@ -91,16 +84,6 @@
       <artifactId>fireflyx</artifactId>
       <version>1.0</version>
       <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>classindex</artifactId>
-          <groupId>org.atteo.classindex</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>CompatSpigot1_8_R3</artifactId>
-          <groupId>com.ngxdev</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>cc.funkemunky.plugins</groupId>
@@ -127,9 +110,9 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>cc.funkemunky.plugins</groupId>
+      <groupId>cc.funkemunky.utils</groupId>
       <artifactId>Atlas</artifactId>
-      <version>1.7</version>
+      <version>1.7.3</version>
       <scope>provided</scope>
     </dependency>
     <dependency>

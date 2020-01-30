@@ -1,6 +1,7 @@
 package cc.funkemunky.scoreboard.anticheats;
 
 import cc.funkemunky.api.Atlas;
+import cc.funkemunky.api.utils.Init;
 import cc.funkemunky.scoreboard.listeners.custom.AnticheatFlagEvent;
 import cc.funkemunky.scoreboard.wrapper.CheckWrapper;
 import fr.neatmonster.nocheatplus.actions.ParameterName;
@@ -8,9 +9,9 @@ import fr.neatmonster.nocheatplus.checks.CheckType;
 import fr.neatmonster.nocheatplus.checks.access.IViolationInfo;
 import fr.neatmonster.nocheatplus.hooks.NCPHook;
 import fr.neatmonster.nocheatplus.hooks.NCPHookManager;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+@Init(requirePlugins = {"NoCheatPlus"})
 public class NoCheatPlus implements NCPHook {
 
     public NoCheatPlus() {
@@ -31,10 +32,14 @@ public class NoCheatPlus implements NCPHook {
     public boolean onCheckFailure(CheckType checkType, Player player, IViolationInfo iViolationInfo) {
         AnticheatFlagEvent afe = new AnticheatFlagEvent("NoCheatPlus", player,
                 new CheckWrapper(checkType.getName(), iViolationInfo.hasLogAction(), iViolationInfo.willCancel(),
-                        checkType.getType().name()),
+                        checkType.getParent().getName()),
                 (float)iViolationInfo.getTotalVl(), iViolationInfo.getParameter(ParameterName.TAGS));
 
-        Bukkit.getPluginManager().callEvent(afe);
-        return !afe.isCancelled();
+        Atlas.getInstance().getEventManager().callEvent(afe);
+
+
+        return afe.isCancelled();
     }
+
+
 }

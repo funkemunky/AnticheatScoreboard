@@ -1,12 +1,12 @@
 package cc.funkemunky.scoreboard.anticheats;
 
+import cc.funkemunky.api.Atlas;
 import cc.funkemunky.api.utils.Init;
 import cc.funkemunky.api.utils.MathUtils;
 import cc.funkemunky.scoreboard.listeners.custom.AnticheatFlagEvent;
 import cc.funkemunky.scoreboard.wrapper.CheckWrapper;
 import me.islandscout.hawk.event.bukkit.HawkFlagEvent;
 import me.islandscout.hawk.util.Violation;
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -22,7 +22,6 @@ public class Hawk implements Listener {
                 violation.getCheck().getName()), violation.getVl(),
                 "Ping: " + violation.getPing() + "ms TPS: " + MathUtils.round(violation.getTps(), 2));
 
-        Bukkit.getPluginManager().callEvent(afe);
-        event.setCancelled(afe.isCancelled());
+        Atlas.getInstance().getEventManager().callEvent(afe);
     }
 }

@@ -6,7 +6,6 @@ import cc.funkemunky.api.commands.ancmd.CommandAdapter;
 import cc.funkemunky.api.utils.Color;
 import cc.funkemunky.api.utils.Init;
 import cc.funkemunky.scoreboard.AnticheatScoreboard;
-import lombok.val;
 
 @Init(commands = true)
 public class ToggleScoreboard {

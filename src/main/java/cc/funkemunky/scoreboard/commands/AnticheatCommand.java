@@ -4,20 +4,104 @@ import cc.funkemunky.api.commands.ancmd.Command;
 import cc.funkemunky.api.commands.ancmd.CommandAdapter;
 import cc.funkemunky.api.utils.Color;
 import cc.funkemunky.api.utils.Init;
+import cc.funkemunky.api.utils.ItemBuilder;
+import cc.funkemunky.api.utils.MiscUtils;
 import cc.funkemunky.scoreboard.AnticheatScoreboard;
+import cc.funkemunky.scoreboard.utils.menu.button.Button;
+import cc.funkemunky.scoreboard.utils.menu.preset.button.FillerButton;
+import cc.funkemunky.scoreboard.utils.menu.type.impl.ChestMenu;
+import lombok.val;
+import lombok.var;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Init(commands = true)
 public class AnticheatCommand {
 
+    private static List<String> anticheats = Arrays.asList("Vanilla", "Kauri", "AutoEye", "FireFlyX", "AAC", "Hawk",
+            "Iris", "NoCheatPlus", "Reflex", "Spartan", "TakaAntiCheat");
+
     @Command(name = "as.anticheat", description = "Choose an anticheat to use.",
             aliases = {"anticheat", "ac", "pac", "asac", "pickac"},
-            playerOnly = true,
-            tabCompletions = {"%label%::kauri,,autoeye,,fireflyx,,aac,,hawk,,iris,,nocheatplus,,reflex,,spartan,,taka"})
+            playerOnly = true)
     public void onCommand(CommandAdapter cmd) {
-        if(cmd.getArgs().length == 0) {
-            cmd.getPlayer().sendMessage(Color.Red + "Turned off anticheat alerts.");
-        } else {
-            AnticheatScoreboard.INSTANCE.alerts.put(cmd.getPlayer().getUniqueId(), cmd.getArgs()[0]);
+        cmd.getSender().sendMessage(Color.Gray + "Opening menu...");
+        val menu = getACMenu(cmd.getPlayer());
+
+        menu.showMenu(cmd.getPlayer());
+    }
+
+    private static ChestMenu getACMenu(Player player) {
+        ChestMenu menu = new ChestMenu("Select an Anticheat", 3);
+
+        updateButtons(player, menu);
+
+        menu.buildInventory(true);
+
+        return menu;
+    }
+
+    private static void updateButtons(Player player, ChestMenu menu) {
+        String currentSelected = AnticheatScoreboard.INSTANCE.alerts
+                .computeIfAbsent(player.getUniqueId(), (key) -> {
+                    val toReturn = (player.hasPermission("as.vanilla")
+                            ? "Vanilla" : "NoCheatPlus");
+                    AnticheatScoreboard.INSTANCE.alerts.put(key, toReturn);
+
+                    return toReturn;
+                });
+        for (int i = 0; i < menu.contents.length; i++) {
+            menu.contents = new Button[menu.getMenuDimension().getSize()];
         }
+        anticheats.forEach(name -> {
+            val plugin = Bukkit.getPluginManager().getPlugin(name);
+            boolean enabled = name.equals("Vanilla") || (plugin != null && plugin.isEnabled());
+            boolean selected = currentSelected.equals(name);
+
+            var item = new ItemBuilder(Material.getMaterial(enabled ? 340 : 339))  //Book = enabled, Paper = disabled.
+                    .amount(1).name((selected ? "&a" : "&6") + name);
+
+            if(plugin != null && plugin.getDescription() != null) {
+                List<String> depends = new ArrayList<>();
+
+                plugin.getDescription().getDepend().forEach(depend -> depends.add("&8- &f" + depend));
+                plugin.getDescription().getSoftDepend().forEach(depend -> depends.add("&8- &f&o" + depend));
+
+                List<String> lore = new ArrayList<>(Arrays.asList("",
+                        "&eBy&8: &f" + String.join("&7, &f", plugin.getDescription().getAuthors()),
+                        "&7Version&8: &f" + plugin.getDescription().getVersion(), "&7Description&8:"));
+
+                if(plugin.getDescription().getDescription() != null && plugin.getDescription()
+                        .getDescription().length() > 0) {
+                    lore.addAll(Arrays.asList(MiscUtils.splitIntoLine(plugin.getDescription().getDescription(),
+                            30)));
+                } else lore.add("&fNone");
+                lore.add("&7Depends&8:");
+                lore.addAll(depends);
+                item = item
+                        .lore(lore.stream().map(Color::translate).toArray(String[]::new));
+            }
+
+            if(enabled) {
+                Button button = new Button(false, item.build(), (pl, info) -> {
+                    String toSelect =
+                            Color.strip(info.getButton().getStack().getItemMeta().getDisplayName());
+
+                    AnticheatScoreboard.INSTANCE.alerts.put(pl.getUniqueId(), toSelect);
+
+                    updateButtons(pl, (ChestMenu)info.getMenu());
+
+                    menu.buildInventory(false);
+                });
+
+                menu.addItem(button);
+            }
+        });
+        menu.fill(new FillerButton());
     }
 }
