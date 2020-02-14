@@ -54,6 +54,10 @@
             <id>janmm14-public</id>
             <url>https://repo.janmm14.de/repository/public/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -64,7 +68,7 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.github.spigot</groupId>
+            <groupId>org.github.paperspigot</groupId>
             <artifactId>1.8.8</artifactId>
             <version>1.8.8</version>
             <scope>provided</scope>
@@ -91,6 +95,12 @@
             <groupId>cc.funkemunky.plugins</groupId>
             <artifactId>AutoEye</artifactId>
             <version>0.69A</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.MilkBowl</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.7</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

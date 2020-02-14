@@ -92,7 +92,7 @@ public class AnticheatCommand {
                     String toSelect =
                             Color.strip(info.getButton().getStack().getItemMeta().getDisplayName());
 
-                    AnticheatScoreboard.INSTANCE.alerts.put(pl.getUniqueId(), toSelect);
+                    selectAnticheat(pl, toSelect);
 
                     updateButtons(pl, (ChestMenu)info.getMenu());
 
@@ -103,5 +103,16 @@ public class AnticheatCommand {
             }
         });
         menu.fill(new FillerButton());
+    }
+
+    private static void selectAnticheat(Player player, String anticheat) {
+        if(anticheat.equalsIgnoreCase("NoCheatPlus")) {
+            AnticheatScoreboard.INSTANCE.permission.playerAdd(player, "nocheatplus.shortcut.bypass");
+        } else AnticheatScoreboard.INSTANCE.permission.playerRemove(player, "nocheatplus.shortcut.bypass");
+
+        if(anticheat.equalsIgnoreCase("TakaAnticheat")) {
+            AnticheatScoreboard.INSTANCE.permission.playerAdd(player, "tac.bypass");
+        } else AnticheatScoreboard.INSTANCE.permission.playerRemove(player, "tac.bypass");
+        AnticheatScoreboard.INSTANCE.alerts.put(player.getUniqueId(), anticheat);
     }
 }

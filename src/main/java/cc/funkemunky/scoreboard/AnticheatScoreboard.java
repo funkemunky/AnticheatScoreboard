@@ -18,9 +18,11 @@ import me.tigerhix.lib.scoreboard.common.EntryBuilder;
 import me.tigerhix.lib.scoreboard.type.Entry;
 import me.tigerhix.lib.scoreboard.type.Scoreboard;
 import me.tigerhix.lib.scoreboard.type.ScoreboardHandler;
+import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
@@ -35,6 +37,7 @@ public class AnticheatScoreboard extends JavaPlugin {
     public Map<UUID, String> alerts = new HashMap<>();
     public Map<UUID, Scoreboard> boards = new HashMap<>();
     public Thread primaryThread;
+    public Permission permission;
 
     //Lag Information
     public double tps;
@@ -50,6 +53,8 @@ public class AnticheatScoreboard extends JavaPlugin {
 
         primaryThread = Reflections.getNMSClass("MinecraftServer").getFieldByName("primaryThread")
                 .get(ReflectionsUtil.getMinecraftServer());
+
+        setupPermissions();
 
         lastTickLag = new TickTimer(6);
         AtomicInteger ticks = new AtomicInteger();
@@ -79,6 +84,12 @@ public class AnticheatScoreboard extends JavaPlugin {
         Bukkit.getScheduler().cancelTasks(this);
     }
 
+    private boolean setupPermissions() {
+        RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+        permission = rsp.getProvider();
+        return permission != null;
+    }
+
     public Scoreboard setupSB(Player player) {
         val board = ScoreboardLib.createScoreboard(player).setHandler(new ScoreboardHandler() {
 
@@ -95,7 +106,7 @@ public class AnticheatScoreboard extends JavaPlugin {
                         .next("&f" + alerts.getOrDefault(player.getUniqueId(), "Vanilla"))
                         .blank()
                         .next("&e&lLag")
-                        .next("&7Your Ping&8: &f" + MinecraftReflection.getPing(player))
+                        .next("&7Your Ping&8: &f" + player.spigot().getPing())
                         .next("&7TPS&8: &f" + MathUtils.round(tps, 3))
                         .next("&f&8&m--------------------------").build();
             }
