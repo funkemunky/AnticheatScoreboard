@@ -47,7 +47,7 @@
     <repositories>
         <repository>
             <id>funkemunky-releases</id>
-            <url>http://nexus.funkemunky.cc/content/repositories/releases/</url>
+            <url>https://nexus.funkemunky.cc/content/repositories/releases/</url>
         </repository>
         <repository>
             <id>janmm14-public</id>
@@ -95,8 +95,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>cc.funkemunky.plugins</groupId>
-            <artifactId>AutoEye</artifactId>
+            <groupId>com.heirteir</groupId>
+            <artifactId>autoeye</artifactId>
             <version>0.69A</version>
             <scope>provided</scope>
         </dependency>
@@ -109,19 +109,7 @@
         <dependency>
             <groupId>cc.funkemunky.plugins</groupId>
             <artifactId>Iris</artifactId>
-            <version>2.1.3</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>cc.funkemunky.plugins</groupId>
-            <artifactId>HawkAC</artifactId>
-            <version>1912</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>cc.funkemunky.plugins</groupId>
-            <artifactId>TakaAC</artifactId>
-            <version>5.2.0</version>
+            <version>3.0.5</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -131,9 +119,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>cc.funkemunky.plugins</groupId>
+            <groupId>cc.funkemunky.utils</groupId>
             <artifactId>Atlas</artifactId>
-            <version>1.7</version>
+            <version>1.8.3.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

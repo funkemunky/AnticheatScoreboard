@@ -1,14 +1,11 @@
 package cc.funkemunky.scoreboard;
 
 import cc.funkemunky.api.Atlas;
-import cc.funkemunky.api.reflection.CraftReflection;
-import cc.funkemunky.api.reflection.MinecraftReflection;
 import cc.funkemunky.api.reflections.Reflections;
 import cc.funkemunky.api.utils.ReflectionsUtil;
 import me.tigerhix.lib.scoreboard.ScoreboardLib;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
