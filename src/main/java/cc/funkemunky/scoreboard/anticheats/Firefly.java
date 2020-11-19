@@ -8,7 +8,7 @@ import cc.funkemunky.scoreboard.wrapper.CheckWrapper;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-@Init(requirePlugins = {"fireflyx", "nLoader"})
+@Init(requirePlugins = {"FireflyX"})
 public class Firefly implements Listener {
 
     @EventHandler

@@ -1,16 +1,11 @@
 package cc.funkemunky.scoreboard;
 
 import cc.funkemunky.api.Atlas;
-import cc.funkemunky.api.reflection.CraftReflection;
-import cc.funkemunky.api.reflection.MinecraftReflection;
 import cc.funkemunky.api.reflections.Reflections;
 import cc.funkemunky.api.utils.MathUtils;
 import cc.funkemunky.api.utils.ReflectionsUtil;
 import cc.funkemunky.api.utils.RunUtils;
 import cc.funkemunky.api.utils.TickTimer;
-import cc.funkemunky.api.utils.math.RollingAverageDouble;
-import cc.funkemunky.api.utils.objects.evicting.EvictingList;
-import cc.funkemunky.scoreboard.anticheats.Kauri;
 import cc.funkemunky.scoreboard.config.GeneralConfig;
 import lombok.val;
 import me.tigerhix.lib.scoreboard.ScoreboardLib;

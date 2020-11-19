@@ -10,12 +10,15 @@ import cc.funkemunky.scoreboard.AnticheatScoreboard;
 @Init(commands = true)
 public class ToggleScoreboard {
 
-    @Command(name = "scoreboard", description = "The AnticheatScoreboard main command.", display = "Anticheat Scoreboard", permission = "as.command.scoreboard", aliases = {"as", "ascb"})
+    @Command(name = "scoreboard", description = "The AnticheatScoreboard main command.",
+            display = "Anticheat Scoreboard", permission = "as.command.scoreboard", aliases = {"as", "ascb"})
     public void onCommand(CommandAdapter cmd) {
-        Atlas.getInstance().getCommandManager().runHelpMessage(cmd, cmd.getSender(), Atlas.getInstance().getCommandManager().getDefaultScheme());
+        Atlas.getInstance().getCommandManager(AnticheatScoreboard.INSTANCE).runHelpMessage(cmd, cmd.getSender(),
+                Atlas.getInstance().getCommandManager(AnticheatScoreboard.INSTANCE).getDefaultScheme());
     }
 
-    @Command(name = "scoreboard.reload", description = "reload the plugin.", display = "reload", permission = "as.command.reload", aliases = {"as.reload", "ascb.reload"})
+    @Command(name = "scoreboard.reload", description = "reload the plugin.", display = "reload",
+            permission = "as.command.reload", aliases = {"as.reload", "ascb.reload"})
     public void onReload(CommandAdapter cmd) {
         cmd.getSender().sendMessage(Color.Gray + "Reloading...");
         AnticheatScoreboard.INSTANCE.alerts.clear();

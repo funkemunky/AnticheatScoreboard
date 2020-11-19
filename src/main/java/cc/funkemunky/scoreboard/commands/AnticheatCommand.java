@@ -23,8 +23,8 @@ import java.util.List;
 @Init(commands = true)
 public class AnticheatCommand {
 
-    private static List<String> anticheats = Arrays.asList("Vanilla", "Kauri", "AutoEye", "FireFlyX", "AAC", "Hawk",
-            "Iris", "NoCheatPlus", "Reflex", "Spartan", "TakaAntiCheat");
+    private static List<String> anticheats = Arrays.asList("Vanilla", "AAC5", "Kauri", "KauriLoader", "AutoEye", "FireFlyX", "AAC",
+            "Hawk", "Vulcan", "Iris", "NoCheatPlus", "Reflex", "Spartan", "TakaAntiCheat");
 
     @Command(name = "as.anticheat", description = "Choose an anticheat to use.",
             aliases = {"anticheat", "ac", "pac", "asac", "pickac"},
@@ -106,11 +106,15 @@ public class AnticheatCommand {
     }
 
     private static void selectAnticheat(Player player, String anticheat) {
-        if(anticheat.equalsIgnoreCase("NoCheatPlus")) {
+        if(!anticheat.equalsIgnoreCase("NoCheatPlus")) {
             AnticheatScoreboard.INSTANCE.permission.playerAdd(player, "nocheatplus.shortcut.bypass");
-        } else AnticheatScoreboard.INSTANCE.permission.playerRemove(player, "nocheatplus.shortcut.bypass");
+            AnticheatScoreboard.INSTANCE.permission.playerAdd(player, "nocheatplus.shortcut.bypass.*");
+        } else {
+            AnticheatScoreboard.INSTANCE.permission.playerRemove(player, "nocheatplus.shortcut.bypass");
+            AnticheatScoreboard.INSTANCE.permission.playerRemove(player, "nocheatplus.shortcut.bypass.*");
+        }
 
-        if(anticheat.equalsIgnoreCase("TakaAnticheat")) {
+        if(!anticheat.equalsIgnoreCase("TakaAnticheat")) {
             AnticheatScoreboard.INSTANCE.permission.playerAdd(player, "tac.bypass");
         } else AnticheatScoreboard.INSTANCE.permission.playerRemove(player, "tac.bypass");
         AnticheatScoreboard.INSTANCE.alerts.put(player.getUniqueId(), anticheat);

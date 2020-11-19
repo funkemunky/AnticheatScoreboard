@@ -1,19 +1,19 @@
 package cc.funkemunky.scoreboard.anticheats;
 
 import cc.funkemunky.api.Atlas;
-import cc.funkemunky.api.events.AtlasListener;
-import cc.funkemunky.api.events.Listen;
 import cc.funkemunky.api.utils.Init;
 import cc.funkemunky.scoreboard.listeners.custom.AnticheatFlagEvent;
 import cc.funkemunky.scoreboard.wrapper.CheckWrapper;
 import dev.brighten.api.listener.KauriFlagEvent;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
-@Init(requirePlugins = {"KauriLoader", "Kauri"})
-public class Kauri implements AtlasListener {
+@Init(requirePlugins = {"KauriLoader"})
+public class Kauri implements Listener {
 
-    @Listen
+    @EventHandler
     public void onCheat(KauriFlagEvent event) {
-        AnticheatFlagEvent afe = new AnticheatFlagEvent("Kauri", event.player,
+        AnticheatFlagEvent afe = new AnticheatFlagEvent("KauriLoader", event.player,
                 new CheckWrapper(event.check.getName(),
                         event.check.isEnabled(),
                         false,
