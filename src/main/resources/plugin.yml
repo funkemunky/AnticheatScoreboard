@@ -2,6 +2,6 @@ name: AnticheatScoreboard
 main: cc.funkemunky.scoreboard.AnticheatScoreboard
 author: funkemunky
 version: ${project.version}
-depend: [Atlas]
+depend: [Atlas, Vault]
 softdepend: [KauriLoader, Kauri, AAC, Spartan, Reflex, NoCheatPlus,
-             Iris, FeatherBoard, TakaAC, Hawk, fireflyx, nLoader, AutoEye]
+             Iris, FeatherBoard, TakaAntiCheat, Hawk, fireflyx, nLoader, AutoEye]

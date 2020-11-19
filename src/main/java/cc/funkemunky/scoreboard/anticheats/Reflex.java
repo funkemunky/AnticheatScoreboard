@@ -5,13 +5,13 @@ import cc.funkemunky.api.utils.Init;
 import cc.funkemunky.scoreboard.config.GeneralConfig;
 import cc.funkemunky.scoreboard.listeners.custom.AnticheatFlagEvent;
 import cc.funkemunky.scoreboard.wrapper.CheckWrapper;
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import rip.reflex.api.event.ReflexCheckEvent;
 import rip.reflex.api.event.ReflexCommandEvent;
 
 @Init(requirePlugins = {"Reflex"})
-public class Reflex {
+public class Reflex implements Listener {
 
     @EventHandler
     public void onEvent(ReflexCheckEvent event) {
@@ -23,7 +23,7 @@ public class Reflex {
                         event.getCheat().name()), event.getResult().getViolationsMod(),
                 String.join(",", event.getResult().getTags()));
 
-        Bukkit.getPluginManager().callEvent(afe);
+        Atlas.getInstance().getEventManager().callEvent(afe);
         event.setCancelled(afe.isCancelled());
     }
 

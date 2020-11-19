@@ -18,6 +18,7 @@
         <configuration>
           <source>8</source>
           <target>8</target>
+          <compilerArgument>-XDignore.symbol.file</compilerArgument>
         </configuration>
       </plugin>
       <plugin>
@@ -30,7 +31,7 @@
               <goal>shade</goal>
             </goals>
             <configuration>
-              <minimizeJar>true</minimizeJar>
+              <minimizeJar>false</minimizeJar>
             </configuration>
           </execution>
         </executions>
@@ -40,19 +41,15 @@
   <repositories>
     <repository>
       <id>funkemunky-releases</id>
-      <url>https://nexus.funkemunky.cc/content/repositories/releases/</url>
+      <url>http://nexus.funkemunky.cc/content/repositories/releases/</url>
     </repository>
     <repository>
       <id>janmm14-public</id>
       <url>https://repo.janmm14.de/repository/public/</url>
     </repository>
     <repository>
-      <id>md_5-snapshots</id>
-      <url>https://repo.md-5.net/content/repositories/snapshots/</url>
-    </repository>
-    <repository>
-      <id>md_5-releases</id>
-      <url>https://repo.md-5.net/content/repositories/releases/</url>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
     </repository>
   </repositories>
   <dependencies>
@@ -63,7 +60,7 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.github.spigot</groupId>
+      <groupId>org.github.paperspigot</groupId>
       <artifactId>1.8.8</artifactId>
       <version>1.8.8</version>
       <scope>provided</scope>
@@ -81,10 +78,22 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>com.heirteir</groupId>
-      <artifactId>autoeye</artifactId>
+      <groupId>cc.funkemunky.plugins</groupId>
+      <artifactId>AutoEye</artifactId>
       <version>0.69A</version>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.MilkBowl</groupId>
+      <artifactId>VaultAPI</artifactId>
+      <version>1.7</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>bukkit</artifactId>
+          <groupId>org.bukkit</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.ngxdev</groupId>
@@ -95,7 +104,19 @@
     <dependency>
       <groupId>cc.funkemunky.plugins</groupId>
       <artifactId>Iris</artifactId>
-      <version>3.0.5</version>
+      <version>2.1.3</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>cc.funkemunky.plugins</groupId>
+      <artifactId>HawkAC</artifactId>
+      <version>1912</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>cc.funkemunky.plugins</groupId>
+      <artifactId>TakaAC</artifactId>
+      <version>5.2.0</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -107,7 +128,7 @@
     <dependency>
       <groupId>cc.funkemunky.utils</groupId>
       <artifactId>Atlas</artifactId>
-      <version>1.8.3.1</version>
+      <version>1.7.3</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
