@@ -4,6 +4,7 @@ import cc.funkemunky.api.Atlas;
 import cc.funkemunky.api.utils.Init;
 import cc.funkemunky.scoreboard.listeners.custom.AnticheatFlagEvent;
 import cc.funkemunky.scoreboard.wrapper.CheckWrapper;
+import dev.brighten.api.check.CheckType;
 import dev.brighten.api.listener.KauriFlagEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,6 +23,7 @@ public class Kauri implements Listener {
                 event.information);
 
         Atlas.getInstance().getEventManager().callEvent(afe);
-        event.setCancelled(afe.isCancelled());
+        event.setCancelled(afe.isCancelled()
+                && !event.getCheck().getCheckType().equals(CheckType.EXPLOIT));
     }
 }

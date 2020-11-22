@@ -10,6 +10,8 @@ import cc.funkemunky.scoreboard.AnticheatScoreboard;
 import cc.funkemunky.scoreboard.utils.menu.button.Button;
 import cc.funkemunky.scoreboard.utils.menu.preset.button.FillerButton;
 import cc.funkemunky.scoreboard.utils.menu.type.impl.ChestMenu;
+import dev.brighten.api.KauriAPI;
+import dev.brighten.api.KauriVersion;
 import lombok.val;
 import lombok.var;
 import org.bukkit.Bukkit;
@@ -23,8 +25,8 @@ import java.util.List;
 @Init(commands = true)
 public class AnticheatCommand {
 
-    private static List<String> anticheats = Arrays.asList("Vanilla", "AAC5", "Kauri", "KauriLoader", "AutoEye", "FireFlyX", "AAC",
-            "Hawk", "Vulcan", "Iris", "NoCheatPlus", "Reflex", "Spartan", "TakaAntiCheat");
+    private static List<String> anticheats = Arrays.asList("Vanilla", "AAC5", "Kauri", "KauriLoader", "AutoEye",
+            "FireFlyX", "AAC", "Hawk", "Vulcan", "Iris", "NoCheatPlus", "Reflex", "Spartan", "TakaAntiCheat");
 
     @Command(name = "as.anticheat", description = "Choose an anticheat to use.",
             aliases = {"anticheat", "ac", "pac", "asac", "pickac"},
@@ -64,7 +66,7 @@ public class AnticheatCommand {
             boolean selected = currentSelected.equals(name);
 
             var item = new ItemBuilder(Material.getMaterial(enabled ? 340 : 339))  //Book = enabled, Paper = disabled.
-                    .amount(1).name((selected ? "&a" : "&6") + name);
+                    .amount(1).name((selected ? "&a" : "&6") + name.replace("KauriLoader", "Kauri"));
 
             if(plugin != null && plugin.getDescription() != null) {
                 List<String> depends = new ArrayList<>();
@@ -74,7 +76,7 @@ public class AnticheatCommand {
 
                 List<String> lore = new ArrayList<>(Arrays.asList("",
                         "&eBy&8: &f" + String.join("&7, &f", plugin.getDescription().getAuthors()),
-                        "&7Version&8: &f" + plugin.getDescription().getVersion(), "&7Description&8:"));
+                        "&7Version&8: &f" + (name.equals("KauriLoader") ? KauriVersion.getVersion() : plugin.getDescription().getVersion()), "&7Description&8:"));
 
                 if(plugin.getDescription().getDescription() != null && plugin.getDescription()
                         .getDescription().length() > 0) {
@@ -90,7 +92,8 @@ public class AnticheatCommand {
             if(enabled) {
                 Button button = new Button(false, item.build(), (pl, info) -> {
                     String toSelect =
-                            Color.strip(info.getButton().getStack().getItemMeta().getDisplayName());
+                            Color.strip(info.getButton().getStack().getItemMeta().getDisplayName()).replace("Kauri",
+                                    "KauriLoader");
 
                     selectAnticheat(pl, toSelect);
 

@@ -3,6 +3,9 @@ package cc.funkemunky.scoreboard.config;
 import cc.funkemunky.api.utils.ConfigSetting;
 import cc.funkemunky.api.utils.Init;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Init
 public class GeneralConfig {
 

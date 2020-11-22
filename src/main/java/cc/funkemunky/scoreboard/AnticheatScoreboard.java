@@ -1,11 +1,9 @@
 package cc.funkemunky.scoreboard;
 
 import cc.funkemunky.api.Atlas;
+import cc.funkemunky.api.commands.ancmd.CommandManager;
 import cc.funkemunky.api.reflections.Reflections;
-import cc.funkemunky.api.utils.MathUtils;
-import cc.funkemunky.api.utils.ReflectionsUtil;
-import cc.funkemunky.api.utils.RunUtils;
-import cc.funkemunky.api.utils.TickTimer;
+import cc.funkemunky.api.utils.*;
 import cc.funkemunky.scoreboard.config.GeneralConfig;
 import lombok.val;
 import me.tigerhix.lib.scoreboard.ScoreboardLib;
@@ -17,6 +15,7 @@ import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -42,15 +41,25 @@ public class AnticheatScoreboard extends JavaPlugin {
     public void onEnable() {
         INSTANCE = this;
 
+        Plugin kauri = Bukkit.getPluginManager().getPlugin("Kauri");
+        if(kauri != null) {
+            MiscUtils.printToConsole("Getting rid of Kauri /anticheat...");
+            Atlas.getInstance().getCommandManager(kauri).unregisterCommand("anticheat");
+        }
+
+        MiscUtils.printToConsole("Running scanner...");
         Atlas.getInstance().initializeScanner(this, true, true);
 
+        MiscUtils.printToConsole("Starting Scoreboard API...");
         ScoreboardLib.setPluginInstance(this);
 
         primaryThread = Reflections.getNMSClass("MinecraftServer").getFieldByName("primaryThread")
                 .get(ReflectionsUtil.getMinecraftServer());
 
+        MiscUtils.printToConsole("Setting up Vault hook...");
         setupPermissions();
 
+        MiscUtils.printToConsole("Starting services...");
         lastTickLag = new TickTimer(6);
         AtomicInteger ticks = new AtomicInteger();
         AtomicLong lastTimeStamp = new AtomicLong(0);
@@ -70,8 +79,10 @@ public class AnticheatScoreboard extends JavaPlugin {
         }, this, 1L, 1L);
 
         if(GeneralConfig.testMode) {
+            MiscUtils.printToConsole("Setting up scoreboard for online players...");
             Bukkit.getOnlinePlayers().forEach(this::setupSB);
         }
+        MiscUtils.printToConsole(Color.Green + "Completed startup!");
     }
 
     public void onDisable() {
@@ -102,7 +113,7 @@ public class AnticheatScoreboard extends JavaPlugin {
                         .blank()
                         .next("&e&lLag")
                         .next("&7Your Ping&8: &f" + player.spigot().getPing())
-                        .next("&7TPS&8: &f" + MathUtils.round(tps, 3))
+                        .next("&7TPS&8: &f" + MathUtils.round(Bukkit.getServer().spigot().getTPS()[0], 1))
                         .next("&f&8&m--------------------------").build();
             }
 
@@ -119,5 +130,9 @@ public class AnticheatScoreboard extends JavaPlugin {
         }
         boards.put(player.getUniqueId(), board);
         return board;
+    }
+
+    public CommandManager getCommandManager() {
+        return Atlas.getInstance().getCommandManager(this);
     }
 }

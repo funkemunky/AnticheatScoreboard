@@ -1,8 +1,10 @@
 package cc.funkemunky.scoreboard.listeners;
 
+import cc.funkemunky.api.utils.Color;
 import cc.funkemunky.api.utils.Init;
 import cc.funkemunky.scoreboard.AnticheatScoreboard;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -10,9 +12,11 @@ import org.bukkit.event.player.PlayerQuitEvent;
 @Init
 public class BukkitListener implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onEvent(PlayerJoinEvent event) {
         AnticheatScoreboard.INSTANCE.setupSB(event.getPlayer());
+        event.getPlayer().sendMessage(Color.Green + "Welcome! " + Color.Gray + "Use " + Color.White
+                + "/as anticheat" + Color.Gray + " to switch anticheats!");
     }
 
     @EventHandler

@@ -11,7 +11,7 @@ import cc.funkemunky.scoreboard.AnticheatScoreboard;
 public class ToggleScoreboard {
 
     @Command(name = "scoreboard", description = "The AnticheatScoreboard main command.",
-            display = "Anticheat Scoreboard", permission = "as.command.scoreboard", aliases = {"as", "ascb"})
+            display = "Anticheat Scoreboard", aliases = {"as", "ascb"})
     public void onCommand(CommandAdapter cmd) {
         Atlas.getInstance().getCommandManager(AnticheatScoreboard.INSTANCE).runHelpMessage(cmd, cmd.getSender(),
                 Atlas.getInstance().getCommandManager(AnticheatScoreboard.INSTANCE).getDefaultScheme());
