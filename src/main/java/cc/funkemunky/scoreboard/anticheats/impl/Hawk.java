@@ -1,22 +1,28 @@
-package cc.funkemunky.scoreboard.anticheats;
+package cc.funkemunky.scoreboard.anticheats.impl;
 
 import cc.funkemunky.api.Atlas;
 import cc.funkemunky.api.utils.Init;
 import cc.funkemunky.api.utils.MathUtils;
+import cc.funkemunky.scoreboard.anticheats.Anticheat;
 import cc.funkemunky.scoreboard.listeners.custom.AnticheatFlagEvent;
 import cc.funkemunky.scoreboard.wrapper.CheckWrapper;
 import me.islandscout.hawk.event.bukkit.HawkFlagEvent;
 import me.islandscout.hawk.util.Violation;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 @Init(requirePlugins = "Hawk")
-public class Hawk implements Listener {
+public class Hawk extends Anticheat implements Listener {
+
+    public Hawk() {
+        super("Hawk");
+    }
 
     @EventHandler
     public void onCheat(HawkFlagEvent event) {
         Violation violation = event.getViolation();
-        AnticheatFlagEvent afe = new AnticheatFlagEvent("Hawk",
+        AnticheatFlagEvent afe = new AnticheatFlagEvent(this,
                 violation.getPlayer(), new CheckWrapper(violation.getCheck().getName(),
                 violation.getCheck().canFlag(), violation.getCheck().canCancel(),
                 violation.getCheck().getName()), violation.getVl(),

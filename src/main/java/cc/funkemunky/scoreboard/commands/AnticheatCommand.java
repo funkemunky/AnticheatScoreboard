@@ -7,6 +7,7 @@ import cc.funkemunky.api.utils.Init;
 import cc.funkemunky.api.utils.ItemBuilder;
 import cc.funkemunky.api.utils.MiscUtils;
 import cc.funkemunky.scoreboard.AnticheatScoreboard;
+import cc.funkemunky.scoreboard.anticheats.Anticheat;
 import cc.funkemunky.scoreboard.utils.menu.button.Button;
 import cc.funkemunky.scoreboard.utils.menu.preset.button.FillerButton;
 import cc.funkemunky.scoreboard.utils.menu.type.impl.ChestMenu;
@@ -24,9 +25,6 @@ import java.util.List;
 
 @Init(commands = true)
 public class AnticheatCommand {
-
-    private static List<String> anticheats = Arrays.asList("Vanilla", "AAC5", "Kauri", "KauriLoader", "AutoEye",
-            "FireFlyX", "AAC", "Hawk", "Vulcan", "Iris", "NoCheatPlus", "Reflex", "Spartan", "TakaAntiCheat");
 
     @Command(name = "as.anticheat", description = "Choose an anticheat to use.",
             aliases = {"anticheat", "ac", "pac", "asac", "pickac"},
@@ -49,24 +47,16 @@ public class AnticheatCommand {
     }
 
     private static void updateButtons(Player player, ChestMenu menu) {
-        String currentSelected = AnticheatScoreboard.INSTANCE.alerts
-                .computeIfAbsent(player.getUniqueId(), (key) -> {
-                    val toReturn = (player.hasPermission("as.vanilla")
-                            ? "Vanilla" : "NoCheatPlus");
-                    AnticheatScoreboard.INSTANCE.alerts.put(key, toReturn);
-
-                    return toReturn;
-                });
         for (int i = 0; i < menu.contents.length; i++) {
             menu.contents = new Button[menu.getMenuDimension().getSize()];
         }
-        anticheats.forEach(name -> {
-            val plugin = Bukkit.getPluginManager().getPlugin(name);
-            boolean enabled = name.equals("Vanilla") || (plugin != null && plugin.isEnabled());
-            boolean selected = currentSelected.equals(name);
+        Anticheat.anticheats.forEach(anticheat -> {
+            val plugin = Bukkit.getPluginManager().getPlugin(anticheat.pluginName);
+            boolean enabled = anticheat.pluginName.equals("Vanilla") || (plugin != null && plugin.isEnabled());
+            boolean selected = anticheat.inUse.contains(player);
 
             var item = new ItemBuilder(Material.getMaterial(enabled ? 340 : 339))  //Book = enabled, Paper = disabled.
-                    .amount(1).name((selected ? "&a" : "&6") + name.replace("KauriLoader", "Kauri"));
+                    .amount(1).name((selected ? "&a" : "&6") + anticheat.name);
 
             if(plugin != null && plugin.getDescription() != null) {
                 List<String> depends = new ArrayList<>();
@@ -76,7 +66,8 @@ public class AnticheatCommand {
 
                 List<String> lore = new ArrayList<>(Arrays.asList("",
                         "&eBy&8: &f" + String.join("&7, &f", plugin.getDescription().getAuthors()),
-                        "&7Version&8: &f" + (name.equals("KauriLoader") ? KauriVersion.getVersion() : plugin.getDescription().getVersion()), "&7Description&8:"));
+                        "&7Version&8: &f" + (anticheat.name.equals("Kauri") ? KauriVersion.getVersion()
+                                : plugin.getDescription().getVersion()), "&7Description&8:"));
 
                 if(plugin.getDescription().getDescription() != null && plugin.getDescription()
                         .getDescription().length() > 0) {
@@ -91,11 +82,9 @@ public class AnticheatCommand {
 
             if(enabled) {
                 Button button = new Button(false, item.build(), (pl, info) -> {
-                    String toSelect =
-                            Color.strip(info.getButton().getStack().getItemMeta().getDisplayName()).replace("Kauri",
-                                    "KauriLoader");
 
-                    selectAnticheat(pl, toSelect);
+                    Anticheat.anticheats.forEach(ac -> ac.disableForPlayer(pl));
+                    anticheat.enableForPlayer(pl);
 
                     updateButtons(pl, (ChestMenu)info.getMenu());
 
@@ -106,20 +95,5 @@ public class AnticheatCommand {
             }
         });
         menu.fill(new FillerButton());
-    }
-
-    private static void selectAnticheat(Player player, String anticheat) {
-        if(!anticheat.equalsIgnoreCase("NoCheatPlus")) {
-            AnticheatScoreboard.INSTANCE.permission.playerAdd(player, "nocheatplus.shortcut.bypass");
-            AnticheatScoreboard.INSTANCE.permission.playerAdd(player, "nocheatplus.shortcut.bypass.*");
-        } else {
-            AnticheatScoreboard.INSTANCE.permission.playerRemove(player, "nocheatplus.shortcut.bypass");
-            AnticheatScoreboard.INSTANCE.permission.playerRemove(player, "nocheatplus.shortcut.bypass.*");
-        }
-
-        if(!anticheat.equalsIgnoreCase("TakaAnticheat")) {
-            AnticheatScoreboard.INSTANCE.permission.playerAdd(player, "tac.bypass");
-        } else AnticheatScoreboard.INSTANCE.permission.playerRemove(player, "tac.bypass");
-        AnticheatScoreboard.INSTANCE.alerts.put(player.getUniqueId(), anticheat);
     }
 }

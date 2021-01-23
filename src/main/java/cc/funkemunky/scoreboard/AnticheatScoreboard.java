@@ -4,6 +4,7 @@ import cc.funkemunky.api.Atlas;
 import cc.funkemunky.api.commands.ancmd.CommandManager;
 import cc.funkemunky.api.reflections.Reflections;
 import cc.funkemunky.api.utils.*;
+import cc.funkemunky.scoreboard.anticheats.Anticheat;
 import cc.funkemunky.scoreboard.config.GeneralConfig;
 import lombok.val;
 import me.tigerhix.lib.scoreboard.ScoreboardLib;
@@ -28,7 +29,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class AnticheatScoreboard extends JavaPlugin {
     public static AnticheatScoreboard INSTANCE;
-    public Map<UUID, String> alerts = new HashMap<>();
     public Map<UUID, Scoreboard> boards = new HashMap<>();
     public Thread primaryThread;
     public Permission permission;
@@ -109,7 +109,7 @@ public class AnticheatScoreboard extends JavaPlugin {
                 return new EntryBuilder()
                         .next("&8&m--------------------------")
                         .next("&e&lAnticheat")
-                        .next("&f" + alerts.getOrDefault(player.getUniqueId(), "Vanilla"))
+                        .next("&f" + Anticheat.namesinUse.getOrDefault(player.getUniqueId(), "Vanilla"))
                         .blank()
                         .next("&e&lLag")
                         .next("&7Your Ping&8: &f" + player.spigot().getPing())

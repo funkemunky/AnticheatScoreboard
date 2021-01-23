@@ -4,7 +4,6 @@ import cc.funkemunky.api.events.AtlasListener;
 import cc.funkemunky.api.events.Listen;
 import cc.funkemunky.api.utils.Color;
 import cc.funkemunky.api.utils.Init;
-import cc.funkemunky.scoreboard.AnticheatScoreboard;
 import cc.funkemunky.scoreboard.config.GeneralConfig;
 import cc.funkemunky.scoreboard.listeners.custom.AnticheatFlagEvent;
 
@@ -13,24 +12,16 @@ public class AnticheatListener implements AtlasListener {
 
     @Listen
     public void onFlag(AnticheatFlagEvent event) {
-        if(!event.isCancelled() && GeneralConfig.testMode) {
-            if(AnticheatScoreboard.INSTANCE.alerts.containsKey(event.player.getUniqueId())) {
-                String anticheat = AnticheatScoreboard.INSTANCE.alerts.get(event.player.getUniqueId());
+        if(!event.isCancelled() && event.anticheat.inUse.contains(event.player)) {
 
-                if(anticheat.equals("ALL") || event.anticheatName.toLowerCase().contains(anticheat.toLowerCase())) {
-                    String message = Color.translate(GeneralConfig.alertMessage
-                            .replace("%anticheat%", event.anticheatName)
-                            .replace("%player%", event.player.getName())
-                            .replace("%check%", event.wrapper.getName())
-                            .replace("%vl%", event.vl + "")
-                            .replace("%tags%", event.messaging));
+            String message = Color.translate(GeneralConfig.alertMessage
+                    .replace("%anticheat%", event.anticheat.name)
+                    .replace("%player%", event.player.getName())
+                    .replace("%check%", event.wrapper.getName())
+                    .replace("%vl%", event.vl + "")
+                    .replace("%tags%", event.messaging));
 
-                    event.player.sendMessage(message);
-                    event.setCancelled(false);
-                    return;
-                }
-            }
-            event.setCancelled(true);
-        }
+            event.player.sendMessage(message);
+        } else event.setCancelled(GeneralConfig.testMode);
     }
 }

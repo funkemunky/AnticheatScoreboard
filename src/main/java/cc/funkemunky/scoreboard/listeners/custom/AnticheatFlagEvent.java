@@ -2,6 +2,7 @@ package cc.funkemunky.scoreboard.listeners.custom;
 
 import cc.funkemunky.api.events.AtlasEvent;
 import cc.funkemunky.api.events.Cancellable;
+import cc.funkemunky.scoreboard.anticheats.Anticheat;
 import cc.funkemunky.scoreboard.wrapper.CheckWrapper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,7 @@ public class AnticheatFlagEvent extends AtlasEvent implements Cancellable {
     @Setter
     private boolean cancelled;
 
-    public final String anticheatName;
+    public final Anticheat anticheat;
     public final Player player;
     public final CheckWrapper wrapper;
     public final float vl;

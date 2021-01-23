@@ -3,6 +3,7 @@ package cc.funkemunky.scoreboard.listeners;
 import cc.funkemunky.api.utils.Color;
 import cc.funkemunky.api.utils.Init;
 import cc.funkemunky.scoreboard.AnticheatScoreboard;
+import cc.funkemunky.scoreboard.anticheats.Anticheat;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -24,5 +25,6 @@ public class BukkitListener implements Listener {
         if(AnticheatScoreboard.INSTANCE.boards.containsKey(event.getPlayer().getUniqueId())) {
             AnticheatScoreboard.INSTANCE.boards.remove(event.getPlayer().getUniqueId());
         }
+        Anticheat.anticheats.forEach(ac -> ac.inUse.remove(event.getPlayer()));
     }
 }
